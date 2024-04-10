@@ -1,26 +1,38 @@
-"use client";
 import { updateDocRequest } from "@/lib/actions";
+import { getDocRequestById } from "@/lib/data";
 
-export default function EditDocRequestForm({ request }) {
-  //taking a break - working on dispatch action for updating the request form
+export default function EditDocRequestForm({ DocRequestById }) {
+  async function submit(data) {
+    "use server";
+    console.log(data);
 
-  // pass id to the Server Action using JS bind. This will ensure that any values passed to the Server Action are encoded.
-  const updateDocRequestWithId = updateDocRequest.bind(null, request.userId);
+    const docRequestId = data.get("userId");
+    const DocRequestById = await getDocRequestById(docRequestId);
 
-  console.log("passed down", request);
+    // Make the user attached to the DocRequest a "doctor"
+    DocRequestById.user.role = "doctor";
+
+    // Mark this DocRequest has having been completed
+    DocRequestById.delete();
+
+    // Notify the User
+  }
+
+  //change the name of your formdata to doc requests
   return (
-    <form action={updateDocRequestWithId}>
+    <form action={submit}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* User ID */}
+        {/* DocRequestId ID */}
         <div className="mb-4">
           <label htmlFor="userId" className="mb-2 block text-sm font-medium">
-            User ID
+            Doc Request ID
           </label>
           <input
             id="userId"
             name="userId"
             type="text"
-            defaultValue={request.userId}
+            // defaultValue={DocRequestById.userId}
+            value={DocRequestById.userId}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
             disabled // Assuming user ID is not editable
           />
@@ -35,7 +47,7 @@ export default function EditDocRequestForm({ request }) {
             id="name"
             name="name"
             type="text"
-            defaultValue={request.name}
+            defaultValue={DocRequestById.name}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
           />
         </div>
@@ -49,7 +61,7 @@ export default function EditDocRequestForm({ request }) {
             id="email"
             name="email"
             type="email"
-            defaultValue={request.email}
+            defaultValue={DocRequestById.email}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
           />
         </div>
@@ -62,7 +74,7 @@ export default function EditDocRequestForm({ request }) {
           <textarea
             id="message"
             name="message"
-            defaultValue={request.message}
+            defaultValue={DocRequestById.message}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
             rows={4}
           />
@@ -77,7 +89,7 @@ export default function EditDocRequestForm({ request }) {
         <select
           id="role"
           name="role"
-          defaultValue={request.user.role}
+          defaultValue={DocRequestById.user.role}
           className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2"
         >
           <option value="user">User</option>

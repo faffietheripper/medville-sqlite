@@ -11,12 +11,13 @@ export async function FormDataPage() {
       <ul>
         {formDataWithUser.map((formData) => (
           <li key={formData.id} className="mb-10">
-            <div>ID: {formData.userId}</div>
+            {/* <div>ID: {formData.userId}</div> */}
+            <div>ID: {formData.id}</div>
             <div>Name: {formData.user.name}</div>
             <div>Email: {formData.user.email}</div>
             <div>Message: {formData.message}</div>
             <div>Role: {formData.user.role}</div>
-            <UpdateRequest id={formData.userId} />
+            <UpdateRequest id={formData.id} />
           </li>
         ))}
       </ul>

@@ -19,13 +19,15 @@ export async function getFormDataWithUser() {
   }
 }
 
-export async function getDocRequestById(userId) {
-  noStore();
+export async function getDocRequestById(formDataId) {
+  // noStore();
+
+  //  const formDataWithUser = await getFormDataWithUser();
 
   try {
-    const docRequest = await prisma.formData.findUnique({
+    const docRequest = await prisma.formData.findFirst({
       where: {
-        userId: user.id,
+        id: Number(formDataId),
       },
       include: {
         user: true, // Include user data associated with each form data
