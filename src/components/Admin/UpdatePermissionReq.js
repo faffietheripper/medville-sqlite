@@ -1,26 +1,35 @@
-import { updateDocRequest } from "@/lib/actions";
-import { getDocRequestById } from "@/lib/data";
+import { updatePermissionsRequest } from "@/lib/actions";
 
-export default function EditDocRequestForm({ DocRequestById }) {
-  async function submit(data) {
+export default function UpdatePermissionReq({ PermissionsRequestById }) {
+  /* async function submit(data) {
     "use server";
-    console.log(data);
+    console.log("updatedata", data);
 
-    const docRequestId = data.get("userId");
-    const DocRequestById = await getDocRequestById(docRequestId);
+    const permissionsRequestId = PermissionsRequestById.userId; // Ensure permissionsRequestId is converted to an integer if necessary
+    const updatedPermissionsRequest = await getPermissionsRequestById({
+      where: {
+        id: permissionsRequestId, // Provide the id to the where clause
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    console.log("docReq", permissionsRequestId);
 
     // Make the user attached to the DocRequest a "doctor"
-    DocRequestById.user.role = "doctor";
+    updatedPermissionsRequest.user.role = data.role;
 
     // Mark this DocRequest has having been completed
-    DocRequestById.delete();
+    updatedPermissionsRequest.delete();
 
     // Notify the User
   }
+*/
 
-  //change the name of your formdata to doc requests
+  //change the name of your formdata to permissions requests - almost done
   return (
-    <form action={submit}>
+    <form action={updatePermissionsRequest}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* DocRequestId ID */}
         <div className="mb-4">
@@ -32,7 +41,7 @@ export default function EditDocRequestForm({ DocRequestById }) {
             name="userId"
             type="text"
             // defaultValue={DocRequestById.userId}
-            value={DocRequestById.userId}
+            value={PermissionsRequestById.userId}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
             disabled // Assuming user ID is not editable
           />
@@ -47,7 +56,7 @@ export default function EditDocRequestForm({ DocRequestById }) {
             id="name"
             name="name"
             type="text"
-            defaultValue={DocRequestById.name}
+            defaultValue={PermissionsRequestById.name}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
           />
         </div>
@@ -61,7 +70,7 @@ export default function EditDocRequestForm({ DocRequestById }) {
             id="email"
             name="email"
             type="email"
-            defaultValue={DocRequestById.email}
+            defaultValue={PermissionsRequestById.email}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
           />
         </div>
@@ -74,7 +83,7 @@ export default function EditDocRequestForm({ DocRequestById }) {
           <textarea
             id="message"
             name="message"
-            defaultValue={DocRequestById.message}
+            defaultValue={PermissionsRequestById.message}
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2 placeholder:text-gray-500"
             rows={4}
           />
@@ -89,7 +98,7 @@ export default function EditDocRequestForm({ DocRequestById }) {
         <select
           id="role"
           name="role"
-          defaultValue={DocRequestById.user.role}
+          defaultValue={PermissionsRequestById.user.role}
           className="peer block w-full rounded-md border border-gray-200 py-2 pl-3 text-sm outline-2"
         >
           <option value="user">User</option>

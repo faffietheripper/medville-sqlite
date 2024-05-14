@@ -1,7 +1,6 @@
 import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "@/lib/auth";
-import FormDataPage from "@/components/formData";
 
 const AdminPage = async () => {
   const session = await getServerSession(authOptions);

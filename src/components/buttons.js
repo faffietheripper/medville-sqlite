@@ -3,7 +3,7 @@ import Link from "next/link";
 //this is the button that get a request that needs to be updated by id
 export function UpdateRequest({ id }) {
   return (
-    <Link href={`/admin/docRequests/${id}/edit`}>
+    <Link href={`/admin/permissionsRequests/${id}/edit`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

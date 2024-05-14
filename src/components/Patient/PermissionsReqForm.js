@@ -3,7 +3,7 @@
 import { createRequest } from "@/lib/actions";
 import { useFormState } from "react-dom";
 
-export default function Form() {
+export default function PermissionsReqForm() {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(createRequest, initialState);
 

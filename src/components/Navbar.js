@@ -131,10 +131,16 @@ const AdminContent = () => {
         <div className="mb-3 space-y-3">
           <h3 className="font-semibold">Sub Routes</h3>
           <a
-            href="/admin/docRequests"
+            href="/admin/permissionsRequests"
             className="block text-sm hover:underline"
           >
-            Doc Requests
+            Permissions Requests
+          </a>
+          <a
+            href="/admin/approvedDocs"
+            className="block text-sm hover:underline"
+          >
+            Approved Doctors
           </a>
         </div>
       </div>

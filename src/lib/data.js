@@ -4,40 +4,57 @@ import { unstable_noStore as noStore } from "next/cache";
 const prisma = new PrismaClient();
 
 // Function to fetch form data along with associated user data
-export async function getFormDataWithUser() {
+export async function getPermissionsRequests() {
   try {
-    const formDataWithUser = await prisma.formData.findMany({
+    const permissionRequest = await prisma.permissionReq.findMany({
       include: {
         user: true, // Include user data associated with each form data
       },
     });
 
-    return formDataWithUser;
+    return permissionRequest;
   } catch (error) {
     console.error("Error fetching form data with user:", error);
     return null;
   }
 }
 
-export async function getDocRequestById(formDataId) {
+export async function getPermissionsRequestById(permissionReqId) {
   // noStore();
 
-  //  const formDataWithUser = await getFormDataWithUser();
+  //  const permissionReqWithUser = await getpermissionReqWithUser();
 
   try {
-    const docRequest = await prisma.formData.findFirst({
+    const permissionsRequest = await prisma.permissionReq.findFirst({
       where: {
-        id: Number(formDataId),
+        id: Number(permissionReqId),
       },
       include: {
         user: true, // Include user data associated with each form data
       },
     });
 
-    console.log("trialid", docRequest);
-    return docRequest;
+    return permissionsRequest;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch Doc Request: " + error.message);
+  }
+}
+
+//function to get list of users with the role of a doctor from database
+export async function getApprovedDoctors() {
+  try {
+    const approvedDoctors = await prisma.user.findMany({
+      where: {
+        role: "doctor", // Enclose "doctor" in quotes
+      },
+    });
+
+    console.log("docs", approvedDoctors);
+
+    return approvedDoctors;
+  } catch (error) {
+    console.error("Error fetching form data with user:", error);
+    return null;
   }
 }

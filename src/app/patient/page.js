@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import React from "react";
 import { authOptions } from "@/lib/auth";
-import DocAppForm from "@/components/DocAppForm";
+import PermissionsReqForm from "@/components/Patient/PermissionsReqForm";
 
 const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
@@ -17,7 +17,8 @@ const ProfilePage = async () => {
         <p>Role:</p>
         <p>{session?.user.role}</p>
       </div>
-      <DocAppForm />
+      <h1 className="text-2xl font-bold">Permissions Request Form</h1>
+      <PermissionsReqForm />
     </div>
   );
 };

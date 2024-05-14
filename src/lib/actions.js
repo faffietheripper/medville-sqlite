@@ -18,7 +18,7 @@ export async function getCurrentUser() {
   }
 }
 
-export async function createRequest(formData) {
+export async function createRequest(permissionReq) {
   // Assuming you have a function getCurrentUser() to retrieve the current user
   const currentUser = await getCurrentUser();
   console.log("user", currentUser);
@@ -31,21 +31,21 @@ export async function createRequest(formData) {
 
   // Get user object properties
   const { name, email, role } = currentUser;
-  const rawFormData = {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    message: formData.get("message"),
+  const rawpermissionReq = {
+    name: permissionReq.get("name"),
+    email: permissionReq.get("email"),
+    message: permissionReq.get("message"),
     user: {
       connect: { email: currentUser.email },
     },
   };
   // Test it out:
-  console.log("rawformdata", rawFormData);
+  console.log("rawpermissionReq", rawpermissionReq);
 
   try {
     // Save form data to the database using Prisma Client
-    const savedData = await prisma.formData.create({
-      data: rawFormData,
+    const savedData = await prisma.permissionReq.create({
+      data: rawpermissionReq,
     });
 
     console.log("Saved form data:", savedData);
@@ -54,36 +54,32 @@ export async function createRequest(formData) {
   }
 }
 
-//function to update doc application request
-export async function updateDocRequest(docRequestId, newData) {
+export async function updatePermissionsRequest(permissionReqId, permissionReq) {
   try {
-    // Fetch the existing doc request by its ID
-    const existingDocRequest = await prisma.formData.findUnique({
-      where: {
-        userId: docRequestId,
-      },
-    });
+    let updatedPermissionsRequest;
 
-    if (!existingDocRequest) {
-      throw new Error(`Document request with ID ${docRequestId} not found`);
-    }
-
-    // Update the existing doc request with the new data
-    const updatedDocRequest = await prisma.formData.update({
+    console.log("damage control", permissionReq);
+    // If permissionReqId is provided, update the existing data
+    updatedPermissionsRequest = await prisma.permissionReq.update({
       where: {
-        userId: docRequestId,
+        id: Number(permissionReqId),
       },
       data: {
-        ...newData,
+        name: permissionReq.name,
+        email: permissionReq.email,
+        message: permissionReq.message,
+        role: permissionReq.role,
       },
       include: {
         user: true,
       },
     });
 
-    return updatedDocRequest;
+    console.log("Updated permissions request:", updatedPermissionsRequest);
+
+    return updatedPermissionsRequest;
   } catch (error) {
-    console.error("Error updating document request:", error);
-    throw new Error("Failed to update document request: " + error.message);
+    console.error("Database Error:", error);
+    throw new Error("Failed to update permissions request");
   }
 }
